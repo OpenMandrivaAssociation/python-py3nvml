@@ -26,7 +26,7 @@ These are:
 - A script for displaying a differently formatted nvidia-smi.
 
 %prep
-%autosetup -p1
+%autosetup -n %{srcname}-%{version} -p1
 
 %build
 %py_build
