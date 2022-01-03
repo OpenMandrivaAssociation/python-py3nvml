@@ -39,4 +39,4 @@ These are:
 %doc README.rst
 %{python_sitelib}/%{srcname}/
 %{python_sitelib}/%{srcname}-%{version}-py%{python_version}.egg-info/
-#{_bindir}/%{srcname}
+%{_bindir}/py3smi
