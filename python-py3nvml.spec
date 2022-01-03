@@ -1,79 +1,43 @@
-%bcond_with tests
-
-%global srcname humanfriendly
+%global srcname py3nvml
 
 Name:           python-%{srcname}
-Version:        10.0
+Version:        0.2.7
 Release:        1
-Summary:        Human friendly output for text interfaces using Python
-
-License:        MIT
-URL:            https://%{srcname}.readthedocs.io
-Source0:        https://github.com/xolox/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+Summary:        Python 3 Bindings for NVML library. Get NVIDIA GPU status inside your program.
+Group:          System/Libraries
+License:        BSD-3-Clause License
+URL:            https://github.com/fbcotter/py3nvml
+Source0:        https://files.pythonhosted.org/packages/source/p/py3nvml/py3nvml-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python-devel
-BuildRequires:  python-setuptools
+BuildRequires:  pkgconfig(python)
+BuildRequires:  python3dist(setuptools)
 %{?python_provide:%python_provide python-%{srcname}}
 
-%if %{with tests}
-BuildRequires:  python-capturer
-BuildRequires:  python-coloredlogs
-BuildRequires:  python-pytest
-%endif # with_tests
-
 %description
-The functions and classes in the humanfriendly package can be used to make text
-interfaces more user friendly. Some example features:
+Python 3 compatible bindings to the NVIDIA Management Library. Can be used to query the state of the GPUs on your system. 
+This was ported from the NVIDIA provided python bindings nvidia-ml-py, which only supported python 2. 
+I have forked from version 7.352.0. The old library was itself a wrapper around the NVIDIA Management Library.
 
-- Parsing and formatting numbers, file sizes, pathnames and timespans in
-  simple, human friendly formats.
-- Easy to use timers for long running operations, with human friendly
-  formatting of the resulting timespans.
-- Prompting the user to select a choice from a list of options by typing the
-  option's number or a unique substring of the option.
-- Terminal interaction including text styling (ANSI escape sequences), user
-  friendly rendering of usage messages and querying the terminal for its size.
-
-
-%package doc
-Summary:        Documentation for the '%{srcname}' Python module
-BuildRequires:  python-sphinx
-
-%description doc
-HTML documentation for the '%{srcname}' Python module.
+In addition to these NVIDIA functions to query the state of the GPU, 
+I have written a couple functions/tools to help in using gpus (particularly for a shared gpu server). 
+These are:
+- A function to 'restrict' the available GPUs by setting the CUDA_VISIBLE_DEVICES environment variable.
+- A script for displaying a differently formatted nvidia-smi.
 
 %prep
-%autosetup
-
+%autosetup -p1
 
 %build
 %py_build
 
-# Don't install the tests.py
-rm build/lib/%{srcname}/tests.py
-
-#sphinx-build-%{python_version} -nb html -d docs/build/doctrees docs docs/build/html
-#rm docs/build/html/.buildinfo
-
-
 %install
 %py_install
 
-
-%if 0%{?with_tests}
-%check
-PYTHONUNBUFFERED=1 py.test-%{python_version} %{srcname}/tests.py
-%endif # with_tests
-
-
-%files doc
-%license LICENSE.txt
-#doc docs/build/html
 
 %files
 %license LICENSE.txt
 %doc CHANGELOG.rst README.rst
 %{python_sitelib}/%{srcname}/
 %{python_sitelib}/%{srcname}-%{version}-py%{python_version}.egg-info/
-%{_bindir}/%{srcname}
+#{_bindir}/%{srcname}
