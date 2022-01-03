@@ -36,8 +36,7 @@ These are:
 
 
 %files
-%license LICENSE.txt
-%doc CHANGELOG.rst README.rst
+%doc README.rst
 %{python_sitelib}/%{srcname}/
 %{python_sitelib}/%{srcname}-%{version}-py%{python_version}.egg-info/
 #{_bindir}/%{srcname}
