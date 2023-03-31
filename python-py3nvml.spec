@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        0.2.7
-Release:        1
+Release:        2
 Summary:        Python 3 Bindings for NVML library. Get NVIDIA GPU status inside your program.
 Group:          System/Libraries
 License:        BSD-3-Clause License
